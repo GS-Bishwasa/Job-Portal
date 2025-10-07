@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+@import "tailwindcss";
+
+*{
+    font-family: Ubuntu;
+}
+
+@layer base{
+    html{
+        scroll-behavior: smooth;
+    }
+}
+
+::-webkit-scrollbar{
+   display: none;
+
+}
+
+.rich-text img{
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+}
+.rich-text pre{
+    background-color: #1e293b;
+    color: #f8fafc;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+}
+.rich-text code{
+    background-color: #f1f5f9;
+    color: #1e293b;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-family: 'Fira Code', monospace;
+}
+.rich-text h1, .rich-text h2, .rich-text h3, .rich-text h4, .rich-text h5, .rich-text h6{
+    font-weight: bold;
+    margin: 1rem 0;
+}       
+.rich-text p{
+    margin: 0.5rem 0;
+    line-height: 1.6;
+}
+.rich-text ul, .rich-text ol{
+    margin: 0.5rem 0 0.5rem 1.5rem;
+    padding-left: 1rem;
+}
+.rich-text li{
+    margin: 0.25rem 0;
+    line-height: 1.6;
+}
+.rich-text a{
+    color: #3b82f6;
+    text-decoration: underline;
+}
+.rich-text a:hover{
+    color: #2563eb;
+}
+
+.rich-text blockquote{
+    border-left: 4px solid #e0e7ff;
+    background-color: #f8fafc;
+    padding: 0.5rem 1rem;
+    margin: 1rem 0;
+    color: #374151;
+    font-style: italic;
+}
