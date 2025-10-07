@@ -19,7 +19,7 @@ app.use(express.json())
 
 
 app.get('/',(req,res)=>{
-res.send("Hello ");
+res.send("Hello World");
 })
 
 app.get("/debug-sentry", function mainHandler(req, res) {
