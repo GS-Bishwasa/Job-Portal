@@ -27,8 +27,10 @@ const handleSearch = () => {
             <h2 className='text-2xl md:text-3xl lg:text-4xl mb-4 font-bold'>Over 10,000+ jobs to apply</h2>
             <p className='text-center text-[14px] mb-8 max-w-xl mx-auto px-5 font-light'>Your Next Big Career Move Starts Right Here - Explore the Best Job Opportunities and Take the First Step Toward Your Future!</p>
 
-        <div className="bg-white text-gray-600 p-2 rounded flex flex-nowrap gap-2 items-center justify-between w-full max-w-xl pl-2 mx-2 sm:mx-auto overflow-hidden">
-  <div className="flex items-center flex-1 min-w-0">
+        <div className="bg-white text-gray-600 p-2 rounded flex flex-col xs:flex-row xs:flex-nowrap gap-2 items-stretch xs:items-center justify-between w-full max-w-xl mx-2 sm:mx-auto overflow-hidden">
+
+  {/* Search Input */}
+  <div className="flex items-center flex-1 min-w-0 border border-gray-200 rounded px-2">
     <img className="h-4 sm:h-5 mr-1 shrink-0" src={assets.search_icon} alt="" />
     <input
       ref={titleRef}
@@ -38,7 +40,8 @@ const handleSearch = () => {
     />
   </div>
 
-  <div className="flex items-center flex-1 min-w-0">
+  {/* Location Input */}
+  <div className="flex items-center flex-1 min-w-0 border border-gray-200 rounded px-2">
     <img className="h-4 sm:h-5 mr-1 shrink-0" src={assets.location_icon} alt="" />
     <input
       ref={locationRef}
@@ -48,13 +51,16 @@ const handleSearch = () => {
     />
   </div>
 
+  {/* Search Button */}
   <button
     onClick={handleSearch}
-    className="bg-blue-600 text-white px-4 sm:px-6 rounded py-2 shrink-0"
+    className="bg-blue-600 text-white px-3 sm:px-6 rounded py-2 text-xs sm:text-sm shrink-0 w-full xs:w-auto"
   >
     Search
   </button>
+
 </div>
+
 
 
         </div>
