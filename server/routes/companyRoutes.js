@@ -23,19 +23,19 @@ router.post('/post-job',protectCompany, postJob)
 
 
 // Get Applicants Data of Company
-router.get('/applicants',getCompanyJobApplicants)
+router.get('/applicants',protectCompany, getCompanyJobApplicants)
 
 
 // Get Company Job List
-router.get('/list-jobs',getCompanyPostedJobs)
+router.get('/list-jobs', protectCompany, getCompanyPostedJobs)
 
 
 // Change Applications Status
-router.post('/change-status',ChnageJobApplicationStatus)
+router.post('/change-status',protectCompany, ChnageJobApplicationStatus)
 
 
 // Change Applications Visibility
-router.post('/change-visiblity',chnageVisibility)
+router.post('/change-visiblity',protectCompany, chnageVisibility)
 
 
 export default router

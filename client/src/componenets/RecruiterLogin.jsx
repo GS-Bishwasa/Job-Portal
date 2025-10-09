@@ -1,32 +1,74 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { assets } from '../assets/assets'
 import AppContext from '../context/AppContext'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
+
 
 const RecruiterLogin = () => {
+    const navigate = useNavigate()
 
     const [state, setstate] = useState('Login')
     const [name, setname] = useState('')
     const [password, setpassword] = useState('')
     const [email, setemail] = useState('')
-
-
     const [image, setimage] = useState(false)
 
     const [isTextDataSubmited, setisTextDataSubmited] = useState(false)
 
-    const onSubmitHandler = (e) => {
+
+    const { setshowRecriterLogin, backendUrl, setcompanyToken, setcompanyData } = useContext(AppContext)
+
+    const onSubmitHandler = async (e) => {
         e.preventDefault()
 
         if (state === "Sign Up" && !isTextDataSubmited) {
-            setisTextDataSubmited(true)
+            return setisTextDataSubmited(true)
         }
+
+        try {
+            if (state === "Login") {
+                const { data } = await axios.post(backendUrl + '/api/company/login', { email, password })
+                if (data.success) {
+                    setcompanyData(data.company)
+                    setcompanyToken(data.token)
+                    localStorage.setItem("companyToken", data.token)
+                    setshowRecriterLogin(false)
+                    navigate("/dashboard")
+                } else {
+                    toast.error(data.message)
+                }
+            } else {
+                const formData = new FormData()
+                formData.append('name', name)
+                formData.append('password', password)
+                formData.append('email', email)
+                formData.append('image', image)
+
+                const { data } = await axios.post(backendUrl + '/api/company/register', formData)
+                if (data.success) {
+                    setcompanyData(data.company)
+                    setcompanyToken(data.token)
+                    localStorage.setItem("companyToken", data.token)
+                    setshowRecriterLogin(false)
+                    navigate("/dashboard")
+                }else{
+                     toast.error(data.message)
+                }
+            }
+        } catch (error) {
+toast.error(error.message)
+        }
+
     }
 
-    const { setshowRecriterLogin } = useContext(AppContext)
 
-    useEffect(()=>{
+
+
+    useEffect(() => {
         document.body.style.overflow = 'hidden'
-        return ()=>{
+        return () => {
             document.body.style.overflow = 'unset'
         }
     })
