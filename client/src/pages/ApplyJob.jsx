@@ -13,18 +13,15 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useAuth } from '@clerk/clerk-react';
 
-
-
-
 const ApplyJob = () => {
 
   const { id } = useParams();
   const { getToken } = useAuth()
-
   const navigate = useNavigate()
 
   const [JobData, setJobData] = useState(null)
   const [isAlreadyApplied, setisAlreadyApplied] = useState(false)
+  const [isApplying, setIsApplying] = useState(false)
 
   const { jobs, backendUrl, userData, userApplications, fetchUserApplications } = useContext(AppContext)
 
@@ -43,33 +40,69 @@ const ApplyJob = () => {
 
   const applyHandler = async () => {
     try {
+      // Prevent applying if already applied
+      if (isAlreadyApplied) {
+        return toast.info('You have already applied to this job')
+      }
+
+      // Prevent multiple clicks
+      if (isApplying) {
+        return
+      }
+
       if (!userData) {
         return toast.error('Login to apply for jobs')
       }
+      
       if (!userData.resume) {
         navigate("/application")
         return toast.error('Upload Resume to apply')
       }
 
+      setIsApplying(true)
+
       const token = await getToken()
-      const { data } = await axios.post(backendUrl + '/api/users/apply', { jobId: JobData._id }, { headers: { Authorization: `Bearer ${token}` } })
+      const { data } = await axios.post(
+        backendUrl + '/api/users/apply', 
+        { jobId: JobData._id }, 
+        { 
+          headers: { Authorization: `Bearer ${token}` },
+          timeout: 10000
+        }
+      )
 
       if (data.success) {
-        window.location.reload();
         toast.success(data.message)
-        fetchUserApplications()
+        setisAlreadyApplied(true)
+        // Refresh applications list
+        await fetchUserApplications()
       } else {
         toast.error(data.message)
       }
 
     } catch (error) {
-      toast.error(error.message)
+      console.error('Apply error:', error)
+      if (error.code === 'ECONNABORTED') {
+        toast.error('Request timeout - please try again')
+      } else if (error.response) {
+        toast.error(error.response.data?.message || 'Application failed')
+      } else {
+        toast.error(error.message)
+      }
+    } finally {
+      setIsApplying(false)
     }
   }
 
-
   const checkAlreadyApplied = () => {
-    const hasApplied = userApplications.some(item => item.jobId._id === JobData._id)
+    if (!JobData || !userApplications.length) {
+      setisAlreadyApplied(false)
+      return
+    }
+    
+    const hasApplied = userApplications.some(item => 
+      item.jobId && item.jobId._id === JobData._id
+    )
     setisAlreadyApplied(hasApplied)
   }
 
@@ -77,15 +110,9 @@ const ApplyJob = () => {
     fetchJob()
   }, [id])
 
-
   useEffect(() => {
-    if (userApplications.length > 0 && JobData) {
-      checkAlreadyApplied()
-    }
+    checkAlreadyApplied()
   }, [JobData, userApplications, id])
-
-
-
 
   return JobData ? (
     <div>
@@ -119,7 +146,19 @@ const ApplyJob = () => {
             </div>
 
             <div className='flex flex-col justify-center text-end text-sm max-md:mx-auto max-md:text-center '>
-              <button onClick={applyHandler} className='bg-blue-600 p-2.5 px-10 text-white rounded'>{isAlreadyApplied ? 'Already Applied' : "Apply Now"}</button>
+              <button 
+                onClick={applyHandler} 
+                disabled={isAlreadyApplied || isApplying}
+                className={`p-2.5 px-10 text-white rounded transition-colors ${
+                  isAlreadyApplied 
+                    ? 'bg-gray-500 cursor-not-allowed' 
+                    : isApplying 
+                    ? 'bg-blue-400 cursor-wait'
+                    : 'bg-blue-600 hover:bg-blue-700'
+                }`}
+              >
+                {isApplying ? 'Applying...' : isAlreadyApplied ? 'Already Applied' : 'Apply Now'}
+              </button>
               <p className='mt-1 text-gray-600'>Posted {moment(JobData.date).fromNow()}</p>
             </div>
 
@@ -129,18 +168,39 @@ const ApplyJob = () => {
             <div className='w-full lg:w-2/3 '>
               <h2 className='font-bold text-2xl mb-4'>Job Description</h2>
               <div dangerouslySetInnerHTML={{ __html: JobData.description }} className='rich-text'></div>
-              <button onClick={applyHandler} className='bg-blue-600 p-2.5 px-10 text-white rounded mt-10'>{isAlreadyApplied ? 'Already Applied' : "Apply Now"}</button>
+              <button 
+                onClick={applyHandler} 
+                disabled={isAlreadyApplied || isApplying}
+                className={`p-2.5 px-10 text-white rounded mt-10 transition-colors ${
+                  isAlreadyApplied 
+                    ? 'bg-gray-500 cursor-not-allowed' 
+                    : isApplying 
+                    ? 'bg-blue-400 cursor-wait'
+                    : 'bg-blue-600 hover:bg-blue-700'
+                }`}
+              >
+                {isApplying ? 'Applying...' : isAlreadyApplied ? 'Already Applied' : 'Apply Now'}
+              </button>
             </div>
 
             {/* More Jobs */}
             <div className='w-full lg:w-1/3 mt-8 lg:mt-0 lg:ml-8 space-y-5'>
               <h2>More jobs from {JobData.companyId.name}</h2>
-              {jobs.filter(job => job._id !== JobData._id && job.companyId._id === JobData.companyId._id).filter(job => {
-                // set of applied jobIds
-                const appliedJobsIds = new Set(userApplications.map(app=>app.jobId && app.jobId._id))
-                // Return true if the user not applied for this job
-                return !appliedJobsIds.has(job._id)
-              }).slice(0, 4).map(job => <JobCard key={job._id} job={job} />)}
+              {jobs
+                .filter(job => job._id !== JobData._id && job.companyId._id === JobData.companyId._id)
+                .filter(job => {
+                  // Create set of applied jobIds with null check
+                  const appliedJobsIds = new Set(
+                    userApplications
+                      .filter(app => app.jobId && app.jobId._id)
+                      .map(app => app.jobId._id)
+                  )
+                  // Return true if the user has not applied for this job
+                  return !appliedJobsIds.has(job._id)
+                })
+                .slice(0, 4)
+                .map(job => <JobCard key={job._id} job={job} />)
+              }
             </div>
           </div>
 
