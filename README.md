@@ -1,60 +1,74 @@
-# Job Portal Project
+# 💼 Job Portal Project
 
-[Live Demo](https://job-portal-client-umber-three.vercel.app/)
+🚀 **Live Demo:** [https://job-portal-client-umber-three.vercel.app/](https://job-portal-client-umber-three.vercel.app/)
 
-This is a **Job Portal** web application built using the **MERN stack** with **Vite** as the frontend build tool. It allows users to explore job listings, apply for jobs, and manage job postings. The application features modern UI with **Tailwind CSS**, smooth scrolling effects, and rich text editors for job descriptions.
-
----
-
-## Features
-
-- User authentication and authorization
-- Job posting and management
-- Job search and filters
-- Smooth scrolling animations
-- Rich text editor for job descriptions
-- Notifications and alerts for user actions
-- Cloud-based image upload for job/company logos
-- Error tracking and logging
+A modern **Job Portal web application** built with the **MERN stack (MongoDB, Express.js, React, Node.js)** and **Vite**.  
+It enables users to **browse and apply for jobs**, while recruiters can **post and manage job listings**.  
+The app offers a clean, responsive UI with **Tailwind CSS**, smooth scrolling, and a **rich text editor** for job descriptions.
 
 ---
 
-## Tech Stack
+## ✨ Features
 
-### Frontend
-- **React** (`react` & `react-dom`) – For building the user interface.
-- **Vite** – Modern frontend build tool for fast development and optimized builds.
-- **Tailwind CSS** (`tailwindcss`, `@tailwindcss/vite`) – Utility-first CSS framework for styling the app.
-- **React Router DOM** (`react-router-dom`) – For client-side routing.
-- **React Toastify** (`react-toastify`) – To display notifications and alerts.
-- **Quill** (`quill`) – Rich text editor for job descriptions.
-- **Lenis** (`lenis`) – Smooth scroll animations for better user experience.
-
-### Backend
-- **Node.js & Express** (`express`) – Server-side framework for handling APIs.
-- **MongoDB & Mongoose** (`mongoose`) – Database and ODM for storing users, jobs, and applications.
-- **Axios** (`axios`) – HTTP client for frontend-backend communication.
-- **Moment** (`moment`) – Formatting and manipulating dates.
-- **k-convert** (`k-convert`) – Utility for value conversions (currency, units, etc.).
-- **bcrypt** (`bcrypt`) – Password hashing for secure authentication.
-- **jsonwebtoken** (`jsonwebtoken`) – JWT-based authentication.
-- **Multer** (`multer`) – Handling file uploads (images, resumes).
-- **Cloudinary** (`cloudinary`) – Cloud-based image storage.
-- **Cors** (`cors`) – Enabling cross-origin requests.
-- **Dotenv** (`dotenv`) – Managing environment variables.
-- **Nodemon** (`nodemon`) – Development tool to auto-restart server on file changes.
-- **Sentry** (`@sentry/node`) – Error tracking and monitoring.
-- **Svix** (`svix`) – Webhook management and notifications.
-- **Clerk Express** (`@clerk/express`) – Authentication middleware for Express backend.
-
-### Authentication
-- **Clerk** (`@clerk/clerk-react`, `@clerk/express`) – User authentication and management (signup, login, session handling).
+- 🔐 **User Authentication & Authorization** (via Clerk)
+- 🧾 **Post & Manage Jobs**
+- 🔍 **Search & Filter Jobs**
+- 🧠 **Rich Text Editor** for job descriptions
+- 🎢 **Smooth Scrolling Animations** (Lenis)
+- 📦 **Cloud-Based Image Uploads** (via Cloudinary)
+- 🔔 **Real-Time Notifications & Alerts**
+- 🧰 **Error Tracking & Logging** (via Sentry)
+- 🌗 **Modern, Responsive UI** with Tailwind CSS
 
 ---
 
-## Installation
+## 🧠 Tech Stack
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-link>
-   cd job-portal
+### 🎨 Frontend
+| Library | Purpose |
+|----------|----------|
+| **React** (`react`, `react-dom`) | Component-based frontend UI |
+| **Vite** | Lightning-fast build tool for development |
+| **Tailwind CSS** (`tailwindcss`, `@tailwindcss/vite`) | Utility-first styling |
+| **React Router DOM** (`react-router-dom`) | Client-side routing |
+| **React Toastify** (`react-toastify`) | Displaying toast notifications |
+| **Quill** (`quill`) | Rich text editor for job descriptions |
+| **Lenis** (`lenis`) | Smooth scroll animations for UX |
+
+---
+
+### ⚙️ Backend
+| Library | Purpose |
+|----------|----------|
+| **Node.js** & **Express** (`express`) | Backend framework for APIs |
+| **MongoDB** & **Mongoose** (`mongoose`) | Database and schema modeling |
+| **Axios** (`axios`) | HTTP requests between client and server |
+| **Moment** (`moment`) | Date/time formatting |
+| **k-convert** (`k-convert`) | Utility for numeric conversions |
+| **bcrypt** (`bcrypt`) | Secure password hashing |
+| **jsonwebtoken** (`jsonwebtoken`) | JWT-based authentication |
+| **Multer** (`multer`) | File uploads (e.g. resumes, logos) |
+| **Cloudinary** (`cloudinary`) | Cloud image hosting and optimization |
+| **Cors** (`cors`) | Enables cross-origin requests |
+| **Dotenv** (`dotenv`) | Loads environment variables |
+| **Nodemon** (`nodemon`) | Auto-restarts server in development |
+| **Sentry** (`@sentry/node`) | Error tracking and monitoring |
+| **Svix** (`svix`) | Webhook management for notifications |
+| **Clerk Express** (`@clerk/express`) | Backend authentication middleware |
+
+---
+
+### 🔐 Authentication
+| Library | Purpose |
+|----------|----------|
+| **Clerk React** (`@clerk/clerk-react`) | Frontend authentication and session management |
+| **Clerk Express** (`@clerk/express`) | Backend authentication middleware |
+
+---
+
+## 🛠️ Installation & Setup
+
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/your-username/job-portal.git
+cd job-portal
