@@ -4,7 +4,7 @@ import AppContext from '../context/AppContext'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
-
+import {jwtDecode} from "jwt-decode";
 
 const RecruiterLogin = () => {
     const navigate = useNavigate()
@@ -19,6 +19,21 @@ const RecruiterLogin = () => {
 
 
     const { setshowRecriterLogin, backendUrl, setcompanyToken, setcompanyData } = useContext(AppContext)
+
+    useEffect(() => {
+        const token = localStorage.getItem("companyToken");
+        if (token) {
+            try {
+                const decoded = jwtDecode(token);
+                if (decoded.exp * 1000 < Date.now()) {
+                    localStorage.removeItem("companyToken");
+                    toast.warning("Session expired, please login again!");
+                }
+            } catch (err) {
+                localStorage.removeItem("companyToken");
+            }
+        }
+    }, []);
 
     const onSubmitHandler = async (e) => {
         e.preventDefault()
@@ -53,12 +68,12 @@ const RecruiterLogin = () => {
                     localStorage.setItem("companyToken", data.token)
                     setshowRecriterLogin(false)
                     navigate("/dashboard")
-                }else{
-                     toast.error(data.message)
+                } else {
+                    toast.error(data.message)
                 }
             }
         } catch (error) {
-toast.error(error.message)
+            toast.error(error.message)
         }
 
     }

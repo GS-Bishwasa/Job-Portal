@@ -61,7 +61,7 @@ const ApplyJob = () => {
 
       setIsApplying(true)
 
-      const token = await getToken()
+     const token = await getToken({ skipCache: true })
       const { data } = await axios.post(
         backendUrl + '/api/users/apply', 
         { jobId: JobData._id }, 

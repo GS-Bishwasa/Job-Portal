@@ -61,7 +61,7 @@ export const AppContextProvider = (props) => {
   // Function to fetch user data
   const fetchUserData = async () => {
     try {
-      const token = await getToken()
+     const token = await getToken({ skipCache: true })
       const { data } = await axios.get(backendUrl + '/api/users/user', { headers: { Authorization: `Bearer ${token}` } })
       if (data.success) {
         // console.log(data.user)
@@ -78,7 +78,7 @@ export const AppContextProvider = (props) => {
   // Function to fetch user's applied applications data
   const fetchUserApplications = async () => {
     try {
-      const token = await getToken()
+     const token = await getToken({ skipCache: true })
       const { data } = await axios.get(backendUrl + '/api/users/applications', { headers: { Authorization: `Bearer ${token}` } })
 
       if (data.success) {
