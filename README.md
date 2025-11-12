@@ -70,5 +70,4 @@ The app offers a clean, responsive UI with **Tailwind CSS**, smooth scrolling, a
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/your-username/job-portal.git
-cd job-portal
+git clone https://github.com/GS-Bishwasa/Job-Portal.git
